@@ -1,6 +1,6 @@
-package com.test.sjpa.postegres.dao;
+package com.test.sjpa.oracle.dao;
 
-import com.test.sjpa.postegres.model.Customer;
+import com.test.sjpa.oracle.model.Customer;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

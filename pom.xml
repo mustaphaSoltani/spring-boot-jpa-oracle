@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.test.sjpa</groupId>
-    <artifactId>spring-boot-jpa-postegresql-example</artifactId>
+    <artifactId>spring-boot-jpa-oracle-example</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
 
@@ -38,11 +38,11 @@
             </exclusions>
         </dependency>
 
-        <!-- Postegres JDBC driver -->
+        <!-- Oracle JDBC driver -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0</version>
         </dependency>
 
         <!-- HikariCP connection pool -->

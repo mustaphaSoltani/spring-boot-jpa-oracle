@@ -1,4 +1,4 @@
-package com.test.sjpa.postegres.model;
+package com.test.sjpa.oracle.model;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,10 +13,9 @@ public class Customer {// model
     @SequenceGenerator(sequenceName = "customer_seq", initialValue = 1, allocationSize = 1, name = "CUST_SEQ")
     private Long id;
 
-    @Column(name = "name")
+
     private String name;
 
-    @Column(name = "email")
     private String email;
 
     //@Temporal(TemporalType.DATE)
