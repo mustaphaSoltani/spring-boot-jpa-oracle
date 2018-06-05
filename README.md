@@ -1,7 +1,7 @@
 # spring-boot-jpa-oracle
 
 ## Objectif:
-créer un exemple de pool de connexions par Spring Boot , Spring Data JPA , Oracle et HikariCP.  
+Créer un exemple de pool de connexions par Spring Boot , Spring Data JPA , Oracle et HikariCP.  
 Créer une interface et étendre les données via CrudRepository qui sont chargées par Hibernate automatiquement à partir du fichier import.sql.
 
 ---
@@ -30,7 +30,66 @@ Créer une interface et étendre les données via CrudRepository qui sont charg�
 
 * *__Java 8__*
 -----------------
-## Comment Configurer et Initialiser la base de données?
+## 1. Structure du projet 
+Une structure de projet Maven standard.
+
+![1](https://user-images.githubusercontent.com/28655112/40979022-898a0a72-68cc-11e8-99d7-50a7b5b3e87f.PNG)
+
+## 2. Dépendance du projet 
+Déclare spring-boot-starter-data-jpa, il saisit les données Spring Data, Hibernate et JPA.
+```bash
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Spring data JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Oracle JDBC driver -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>12.1.0</version>
+        </dependency>
+        <!-- HikariCP connection pool -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+    </dependencies>
+  ```
+## 2. Java Persistence API – JPA
+  ### 2.1 Modèle client.
+  Ajoutez des annotations JPA et utilisez "sequence" pour générer l'ID pour l'incrémentation automatique.
+```bash 
+  @Entity
+public class Customer {
+	// "customer_seq" is Oracle sequence name.
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CUST_SEQ")
+    @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "CUST_SEQ")
+    Long id;
+    
+    String name;
+    String email;
+
+    @Column(name = "CREATED_DATE")
+    Date date;
+    //getters and setters, contructors
+}
+```
+
+## 3. Comment Configurer et Initialiser la base de données?
 - Configuration la source de données Oracle dans application.propreties: 
 ```bash
            spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
@@ -52,9 +111,18 @@ Créer une interface et étendre les données via CrudRepository qui sont charg�
             <version>12.1.0</version>
         </dependency>
   ```
-  Pour voir l'arbre de dépendances du projet on utilse la commande:
-  ```bash
-  mvn dependency:tree
-  ```
-        
-  
+ ## 4. Repository
+ Créer une interface et étendre Spring Data CrudRepository
+  ```bash      
+  public interface CustomerRepository extends CrudRepository<Customer, Long> {
+    List<Customer> findByEmail(String email);
+    List<Customer> findByDate(Date date);
+	// custom query example and return a stream
+    @Query("select c from Customer c where c.email = :email")
+    Stream<Customer> findByEmailReturnStream(@Param("email") String email);
+}
+```
+## 5. Execution
+Exécuter l'application qui sera dans la console.
+
+![2](https://user-images.githubusercontent.com/28655112/40983288-2df1ea76-68d7-11e8-80de-b7eef005a401.PNG)
