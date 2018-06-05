@@ -1,7 +1,8 @@
 # spring-boot-jpa-oracle
 
-Dans ce projet, j'ai créé un exemple de pool de connexions par Spring Boot , Spring Data JPA , Oracle et HikariCP.  
-Anisi, j'ai créé une interface et étendu les données Spring CrudRepository qui sont chargées par Hibernate automatiquement à partir du fichier import.sql.
+## Objectif:
+créer un exemple de pool de connexions par Spring Boot , Spring Data JPA , Oracle et HikariCP.  
+Créer une interface et étendre les données via CrudRepository qui sont chargées par Hibernate automatiquement à partir du fichier import.sql.
 
 ---
 
